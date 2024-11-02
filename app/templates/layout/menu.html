@@ -1,0 +1,35 @@
+{% macro menu(ROUTES, menu_type) %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ROUTES['home']}}">Home</a>
+  </li>
+  {% if menu_type == "movil" %}
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['pets']}}">Pets</a>
+  </li>
+  {% else %}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Pets
+    </a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{ROUTES['pets']}}">All</a></li>
+      <li><a class="dropdown-item" href="#">Cats</a></li>
+      <li><a class="dropdown-item" href="#">Dogs</a></li>
+    </ul>
+  </li>
+  {% endif %}
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['about-us']}}">About Us</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['contact-us']}}">Contact Us</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['users']['register']}}">Register</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['users']['login']}}">Log In</a>
+  </li>
+</ul>
+{% endmacro %}
