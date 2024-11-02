@@ -12,5 +12,7 @@ class DBUtils():
     with app.app_context():
       db.create_all()
 
-  def drop_db():
-    db.drop_all()
+  def drop_db(app):
+    with app.app_context():
+      db.drop_all()
+
