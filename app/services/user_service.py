@@ -11,11 +11,15 @@ class UserService:
   @staticmethod
   def register_user(form: ImmutableMultiDict):
     try:
+      email: str = UserValidators.is_valid_email(form.get("email"))
+      
+      if db.session.execute(db.select(User).filter_by(email=email)).one_or_none() is not None:
+        raise UserRegisterErrors("User email address is already taken")
+      
       name: str = UserValidators.is_valid_user_name(form.get("name"))
       lastname: str = UserValidators.is_valid_user_name(form.get("lastname"),True)
       birth_date = UserValidators.is_valid_birth_date(form.get("birthdate"))
       phone_number: str = UserValidators.is_valid_phone_number(form.get("phonenumber"))
-      email: str = UserValidators.is_valid_email(form.get("email"))
       password: str = form.get("password")
       password_confirmation: str = form.get("password_confirmation")
       address: str = UserValidators.is_valid_address(form.get("address"))
