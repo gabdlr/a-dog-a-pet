@@ -7,22 +7,25 @@
 {% endblock %} 
 {% block content %}
 <div class="container">
+
   <div class="register mx-auto">
     <div class="row my-3 my-md-5">
+      {% include 'message.html' %}
       <div class="col-2 register__header-logo">
       </div>
       <div class="col-10 gx-md-4 gx-0">
         <h1 class="register__header-title">Register</h1>
       </div>
     </div>
-    <form class="row g-3 needs-validation" novalidate>
+    <form class="row g-3 needs-validation" method="post" novalidate>
       <div class="col-12">
         <label class="form-label" for="name">Name</label>
         <input 
           class="form-control" 
           id="name" 
-          maxlength="255" 
-          pattern="([A-Za-z]{2,}[A-Za-z ]*)" 
+          maxlength="255"
+          name="name" 
+          pattern="[A-Za-z ]{2,255}" 
           placeholder="Enter your name" 
           required
           type="text"
@@ -35,7 +38,8 @@
           class="form-control"
           id="lastname"
           maxlength="255"
-          pattern="([A-Za-z]{2,}[A-Za-z ]*)"
+          name="lastname"
+          pattern="[A-Za-z ]{2,255}"
           placeholder="Enter your lastname" 
           required
           type="text" 
@@ -44,17 +48,17 @@
       </div>
       <div class="col-md-6">
         <label class="form-label" for="birthdate">Birthdate</label>
-        <input class="form-control" id="birthdate" required type="date">
+        <input class="form-control" id="birthdate" name="birthdate" required type="date">
         {{ form_field_validation(FORM_ERRORS['REQUIRED']) }}
       </div>
       <div class="col-md-6">
         <label class="form-label" for="phonenumber">Phone number</label>
-        <input class="form-control" id="phonenumber" pattern="(\+\d{1,3}){0,1}[0-9]{7,}" placeholder="Enter your phone number" required type="tel">
+        <input class="form-control" id="phonenumber" name="phonenumber" pattern="(\+\d{1,3}){0,1}[0-9]{7,255}" placeholder="Enter your phone number" required type="tel">
         {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['PHONE_NUMBER_FORMAT']) }}
       </div>
       <div class="col-12">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" id="email" maxlength="255" placeholder="Enter your email address" required type="email">
+        <input class="form-control" id="email" maxlength="255" name="email" placeholder="Enter your email address" pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$" required >
         {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['VALID_EMAIL']) }}
       </div>
       <div class="col-md-6">
@@ -64,6 +68,7 @@
           id="password" 
           maxlength="255"
           minlength="6"
+          name="password"
           placeholder="Enter password"
           required
           type="password" 
@@ -77,6 +82,7 @@
           id="password-confirmation" 
           maxlength="255"
           minlength="6"
+          name="password_confirmation"
           placeholder="Repeat password"
           required
           type="password" 
@@ -84,8 +90,8 @@
         {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['PASSWORD_LENGTH']) }}
       </div>
       <div class="col-12">
-        <label class="form-label" for="inputAddress">Address</label>
-        <input class="form-control" id="inputAddress" maxlength="255" placeholder="1234 Main St" required type="text">
+        <label class="form-label" for="address">Address</label>
+        <input class="form-control" id="address" maxlength="255" name="address" placeholder="1234 Main St" required type="text">
         {{ form_field_validation(FORM_ERRORS['REQUIRED']) }}
       </div>
       <div class="col-12 text-center">
