@@ -8,3 +8,4 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')\
         or 'sqlite:///' + os.path.join(basedir, 'instance\\adogapet.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_TYPE = 'sqlalchemy'
