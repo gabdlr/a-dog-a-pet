@@ -1,5 +1,7 @@
 from werkzeug.datastructures import ImmutableMultiDict
-from flask import flash
+from werkzeug.security import generate_password_hash
+
+from flask import flash, session
 from app.models.user import User
 from app.extensions import db
 from app.utils.alert_type import AlertType
@@ -9,7 +11,7 @@ from app.utils.validators import UserValidators
 class UserService:
   
   @staticmethod
-  def register_user(form: ImmutableMultiDict):
+  def register_user(form: ImmutableMultiDict) -> bool :
     try:
       email: str = UserValidators.is_valid_email(form.get("email"))
       
@@ -29,7 +31,7 @@ class UserService:
         name=name, 
         lastname=lastname, 
         email=email, 
-        password=UserValidators.passwords_match(password, password_confirmation),
+        password=generate_password_hash(UserValidators.passwords_match(password, password_confirmation)),
         birth_date= birth_date,
         address=address,
         phone_number=phone_number
@@ -38,6 +40,11 @@ class UserService:
       db.session.add(new_user)
       db.session.commit()
       db.session.flush()
+      user_row = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()
+      if user_row is not None:
+        session["id"] = user_row[0].id
+        return True
+      raise UserRegisterErrors("Something went wrong")
     except UserRegisterErrors as e:
       flash(FlashMessage(e.message, AlertType.DANGER.value ))
       db.session.rollback()
