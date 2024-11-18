@@ -87,7 +87,7 @@
           required
           type="password" 
         >
-        {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['PASSWORD_LENGTH']) }}
+        {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['PASSWORD_LENGTH'] + " " + FORM_ERRORS['MUST_MATCH_PASSWORD']) }}
       </div>
       <div class="col-12">
         <label class="form-label" for="address">Address</label>
@@ -118,6 +118,13 @@
       form.classList.add('was-validated')
     }, false)
   })
+
+  const password = document.getElementById("password")
+  const password_validation = document.getElementById("password-confirmation")
+  password.addEventListener('change', (c) => {
+    password_validation.setAttribute("pattern", c.target.value)
+  })
+ 
 })()
 </script>
 {% endblock %}
