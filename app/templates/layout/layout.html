@@ -29,9 +29,15 @@
                 </div>
             </nav>
           </div>
+          {% if not session["id"] %}
           <div class="col-md-2 d-none d-lg-flex align-items-center justify-content-center">
             <a type="button" class="btn btn-primary w-75" href="{{ROUTES['users']['login']}}" >Log In</a>
           </div>
+          {% else %}
+          <div class="col-md-2 d-none d-lg-flex align-items-center justify-content-center">
+            <a type="button" class="btn btn-danger w-75" href="{{ROUTES['users']['logout']}}" >Log Out</a>
+          </div>
+          {% endif %}
         </div>
         <div>
           <div class="collapse navbar-collapse text-center d-md-none" id="navbarSupportedContent">

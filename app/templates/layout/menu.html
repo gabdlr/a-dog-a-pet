@@ -28,8 +28,10 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ROUTES['users']['register']}}">Register</a>
   </li>
+  {% if not session["id"] %}
   <li class="nav-item">
     <a class="nav-link" href="{{ROUTES['users']['login']}}">Log In</a>
   </li>
+  {% endif %}
 </ul>
 {% endmacro %}
