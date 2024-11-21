@@ -28,3 +28,10 @@ body {
     margin-bottom: .5rem;  
   }
 }
+
+.submit-button {
+  width: 100%;
+  @media(min-width: 576px) {
+    width: 200px;
+  }
+}
