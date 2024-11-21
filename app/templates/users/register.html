@@ -1,5 +1,6 @@
 {% extends "layout/layout.html" %}
-{% from "forms/validation-block.html" import form_field_validation %} 
+{% from "forms/validation-block.html" import form_field_validation %}
+{% from "layout/inner_header.html" import inner_header%} 
 {% block title %} register {% endblock %}
 {% block head %} 
   {{ super() }}
@@ -7,15 +8,9 @@
 {% endblock %} 
 {% block content %}
 <div class="container">
-
   <div class="register mx-auto">
-    <div class="row my-3 my-md-5">
-      {% include 'message.html' %}
-      <div class="col-2 register__header-logo">
-      </div>
-      <div class="col-10 gx-md-4 gx-0">
-        <h1 class="register__header-title">Register</h1>
-      </div>
+    <div class="my-3 my-md-5">
+      {{ inner_header("Register") }}
     </div>
     <form class="row g-3 needs-validation" method="post" novalidate>
       <div class="col-12">

@@ -1,0 +1,10 @@
+{% macro inner_header(title) %}
+<div class="row">
+  {% include 'message.html' %}
+  <div class="col-2 inner-header-logo">
+  </div>
+  <div class="col-10 gx-md-4 gx-0">
+    <h1 class="inner-header-title">{{title}}</h1>
+  </div>
+</div>
+{% endmacro %}

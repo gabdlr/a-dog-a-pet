@@ -8,17 +8,3 @@
     width: 200px;
   }
 }
-
-.register__header-logo {
-  background-image: url('./../img/paw.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.register__header-title {
-  margin-bottom: 0px;
-  @media(min-width: 576px) {
-    margin-bottom: .5rem;  
-  }
-}
