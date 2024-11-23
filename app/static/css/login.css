@@ -1,0 +1,9 @@
+.login {
+  max-width: 480px;
+}
+.register__form-button {
+  width: 100%;
+  @media(min-width: 576px) {
+    width: 200px;
+  }
+}

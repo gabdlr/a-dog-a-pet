@@ -1,5 +1,5 @@
 from werkzeug.datastructures import ImmutableMultiDict
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask import flash, session
 from app.models.user import User
@@ -48,3 +48,20 @@ class UserService:
     except UserRegisterErrors as e:
       flash(FlashMessage(e.message, AlertType.DANGER.value ))
       db.session.rollback()
+
+  @staticmethod
+  def login(form: ImmutableMultiDict):
+        try:
+          email = UserValidators.is_valid_email(form.get("email"))
+          password = UserValidators.is_valid_password(form.get("password"))
+          user_row = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()
+          if user_row is not None:
+            if check_password_hash(user_row[0].password, password):
+              session["id"] = user_row[0].id
+              return True
+          flash(FlashMessage("Invalid email or password", AlertType.DANGER.value ))
+          return False
+        except UserRegisterErrors as e:
+          flash(FlashMessage(e.message, AlertType.DANGER.value ))
+
+          

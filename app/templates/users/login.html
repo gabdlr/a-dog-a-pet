@@ -1,8 +1,51 @@
-{% extends "layout/layout.html" %} 
+{% extends "layout/layout.html" %}
+{% from "layout/inner_header.html" import inner_header%}
+{% from "forms/validation-block.html" import form_field_validation %}
+{% from "forms/submit-btn.html" import form_submit_button %}
 {% block title %} Login {% endblock %}
 {% block head %} 
   {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 {% endblock %} 
 {% block content %}
-<h1>Login!</h1>
+<div class="login container h-100">
+  <div class="row">
+    <div class="col-12 my-3">
+      {{ inner_header("Login") }}
+    </div>
+    <form class="col-12 needs-validation h-100" method="post" novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          class="form-control" 
+          id="email"
+          name="email" 
+          pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$" 
+          placeholder="Enter your email address" 
+          required 
+          type="text" 
+        >
+        {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['VALID_EMAIL']) }}
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          class="form-control" 
+          id="password"
+          maxlength="255"
+          minlength="6"
+          name="password"
+          placeholder="Enter password"
+          required
+          type="password" 
+        >
+        {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " + FORM_ERRORS['PASSWORD_LENGTH']) }}
+      </div>
+      <div class="text-center mt-auto">
+        {{ form_submit_button("Login") }}
+      </div>
+    </form>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/validate-form.js') }}"></script>
 {% endblock %}
