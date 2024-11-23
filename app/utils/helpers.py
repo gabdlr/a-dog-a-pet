@@ -10,3 +10,8 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+def only_guests(html: str):
+    if not session["id"]:
+       return html
+    return None

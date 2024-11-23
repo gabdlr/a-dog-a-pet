@@ -13,7 +13,7 @@ def index():
 def login():
     if request.method == 'POST':
         if UserService.login(request.form):
-           return redirect("/")
+           return redirect("/users/")
     return render_template("users/login.html", FORM_ERRORS=FORM_ERRORS)
 
 @bp.route('/logout')
@@ -25,5 +25,5 @@ def logout():
 def register():
     if request.method == 'POST':
         if UserService.register_user(request.form):
-            return redirect("/")
+            return redirect("/users/")
     return render_template("users/register.html", FORM_ERRORS=FORM_ERRORS)
