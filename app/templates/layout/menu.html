@@ -25,11 +25,11 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ROUTES['contact-us']}}">Contact Us</a>
   </li>
+  {% if not session["id"] %}
   <li class="nav-item">
     <a class="nav-link" href="{{ROUTES['users']['register']}}">Register</a>
   </li>
-  {% if not session["id"] %}
-  <li class="nav-item">
+  <li class="nav-item d-block d-lg-none">
     <a class="nav-link" href="{{ROUTES['users']['login']}}">Log In</a>
   </li>
   {% endif %}
