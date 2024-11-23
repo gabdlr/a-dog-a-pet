@@ -3,7 +3,8 @@ html, body {
 }
 
 body {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .app {
@@ -13,6 +14,10 @@ body {
 
 .content {
   flex-grow: 1;
+}
+
+.footer {
+  padding: 20px;
 }
 
 .inner-header-logo {
