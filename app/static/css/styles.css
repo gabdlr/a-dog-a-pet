@@ -1,3 +1,7 @@
+:root {
+  --main-content-max-width: 480px;
+}
+
 html, body {
   height: 100%;
 }

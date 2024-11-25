@@ -1,5 +1,5 @@
 .register {
-  max-width: 480px;
+  max-width: var(--main-content-max-width, 480px);
 }
 
 .register__form-button {
