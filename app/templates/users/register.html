@@ -97,14 +97,5 @@
   </div>
 </div>
 <script src="{{ url_for('static', filename='js/validate-form.js') }}"></script>
-<script>
-(() => {
-  'use strict'
-  const password = document.getElementById("password");
-  const password_validation = document.getElementById("password-confirmation");
-  password.addEventListener('change', (c) => {
-    password_validation.setAttribute("pattern", c.target.value);
-  });
-})()
-</script>
+<script src="{{ url_for('static', filename='js/passwords-match.js') }}"></script>
 {% endblock %}
