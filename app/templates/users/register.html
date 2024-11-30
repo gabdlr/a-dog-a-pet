@@ -10,8 +10,11 @@
 {% block content %}
 <div class="container">
   <div class="register mx-auto">
-    <div class="my-3 my-md-5">
+    <div class="my-3">
       {{ inner_header("Register") }}
+    </div>
+    <div class="row px-2">
+      {% include 'message.html' %}
     </div>
     <form class="row g-3 needs-validation" method="post" novalidate>
       <div class="col-12">
