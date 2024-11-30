@@ -1,8 +1,177 @@
-{% extends "layout/layout.html" %} 
-{% block title %} Users {% endblock %}
-{% block head %} 
-  {{ super() }}
-{% endblock %} 
-{% block content %}
-<h1>User's page!</h1>
+{% extends "layout/layout.html" %} {% from "forms/submit-btn.html" import
+form_submit_button %} {% from "forms/validation-block.html" import
+form_field_validation %} {% from "layout/inner_header.html" import
+inner_header%} {% block title %} Users {% endblock %} {% block head %} {{
+super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/user.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container h-100">
+  <div class="row justify-content-center justify-content-md-start">
+    <div class="col-12 col-md-6 my-3">
+      {{ inner_header("Welcome, " ~ user.name ~ "!" ) }}
+    </div>
+    <div class="row justify-content-md-evenly">
+      <div class="col-12 col-md-6">
+        <div class="card p-4 row">
+          {% with messages = get_flashed_messages() %}
+            {%if messages %}
+              {%if messages[0].category == FlashMessageCategory.PERSONAL_INFO %}
+              <div class="col-12">{% include 'message.html' %}</div>
+              {% endif %}
+            {% endif %} 
+          {% endwith %}
+          <h5 class="card-title">Personal information</h5>
+          <form class="needs-validation" method="post" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="name">Name</label>
+              <input
+                class="form-control"
+                disabled
+                type="text"
+                value="{{user.name}}"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="lastname">Lastname</label>
+              <input
+                class="form-control"
+                disabled
+                type="text"
+                value="{{user.lastname}}"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="birthdate">Birthdate</label>
+              <input
+                class="form-control"
+                disabled
+                type="date"
+                value="{{user.birth_date}}"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="phonenumber">Phone number</label>
+              <input
+                class="form-control"
+                id="phonenumber"
+                name="phonenumber"
+                pattern="(\+\d{1,3}){0,1}[0-9]{7,255}"
+                placeholder="Enter your phone number"
+                required
+                type="tel"
+                value="{{user.phone_number}}"
+              />
+              {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " +
+              FORM_ERRORS['PHONE_NUMBER_FORMAT']) }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input
+                class="form-control"
+                id="email"
+                maxlength="255"
+                name="email"
+                pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
+                placeholder="Enter your email address"
+                required
+                value="{{user.email}}"
+              />
+              {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " +
+              FORM_ERRORS['VALID_EMAIL']) }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="address">Address</label>
+              <input
+                class="form-control"
+                id="address"
+                maxlength="255"
+                name="address"
+                placeholder="1234 Main St"
+                required
+                type="text"
+                value="{{user.address}}"
+              />
+              {{ form_field_validation(FORM_ERRORS['REQUIRED']) }}
+            </div>
+            <input type="hidden" name="personal_information" value="true" />
+            <div class="col-12 text-end mt-4">
+              {{ form_submit_button("Submit") }}
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="card p-4 row mt-4 mt-md-0">
+            {% with messages = get_flashed_messages() %} 
+              {%if messages %}
+                {%if messages[0].category == FlashMessageCategory.PASSWORD %}
+                <div class="col-12">{% include 'message.html' %}</div>
+                {% endif %}
+              {% endif %} 
+            {% endwith %}
+            <h5 class="card-title">Update password</h5>
+            <form class="needs-validation" method="post" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input
+                  class="form-control"
+                  id="old_password"
+                  maxlength="255"
+                  minlength="6"
+                  name="password"
+                  placeholder="Enter current password"
+                  required
+                  type="password"
+                />
+                {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " +
+                FORM_ERRORS['PASSWORD_LENGTH']) }}
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input
+                  class="form-control"
+                  id="password"
+                  maxlength="255"
+                  minlength="6"
+                  name="new_password"
+                  placeholder="Enter new password"
+                  required
+                  type="password"
+                />
+                {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " +
+                FORM_ERRORS['PASSWORD_LENGTH']) }}
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password-confirmation"
+                  >Repeat new password</label
+                >
+                <input
+                  class="form-control"
+                  id="password-confirmation"
+                  maxlength="255"
+                  minlength="6"
+                  name="new_password_confirmation"
+                  placeholder="Repeat password"
+                  required
+                  type="password"
+                />
+                {{ form_field_validation(FORM_ERRORS['REQUIRED'] + " " +
+                FORM_ERRORS['PASSWORD_LENGTH'] + " " +
+                FORM_ERRORS['MUST_MATCH_PASSWORD']) }}
+              </div>
+              <input type="hidden" name="password_update" value="true" />
+              <div class="col-12 text-end mt-4">
+                {{ form_submit_button("Submit") }}
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/validate-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/passwords-match.js') }}"></script>
 {% endblock %}
