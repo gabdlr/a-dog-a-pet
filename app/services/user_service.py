@@ -28,7 +28,6 @@ class UserService:
       address: str = UserValidators.is_valid_address(form.get("address"))
       
       new_user = User(
-        username="test", 
         name=name, 
         lastname=lastname, 
         email=email, 
