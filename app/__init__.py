@@ -31,5 +31,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
     from app.users import bp as users_bp
     app.register_blueprint(users_bp, url_prefix="/users")
+    from app.pets import bp as pets_bp
+    app.register_blueprint(pets_bp, url_prefix="/pets")
 
     return app
