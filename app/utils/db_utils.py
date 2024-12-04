@@ -11,7 +11,12 @@ class DBUtils():
       Exception("this function needs app context to be ran, please provide app")
     with app.app_context():
       db.create_all()
-
+      dog = PetKind(name="Dog")
+      cat = PetKind(name="Cat")
+      db.session.add_all([dog,cat])
+      db.session.commit()
+      db.session.flush()
+      
   def drop_db(app):
     with app.app_context():
       db.drop_all()
