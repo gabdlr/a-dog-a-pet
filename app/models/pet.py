@@ -7,6 +7,7 @@ class Pet(db.Model):
   name = mapped_column(db.String(255), nullable=False)
   kind_id = mapped_column(db.Integer, db.ForeignKey('pet_kind.id'), nullable=False)
   age = mapped_column(db.Integer, default=0, nullable=False)
+  img_src=mapped_column(db.String(255))
   weight = mapped_column(db.Float, default=0, nullable=False)
   location = mapped_column(db.String(255), nullable=False)
   sex = mapped_column(db.String(1), nullable=False)
