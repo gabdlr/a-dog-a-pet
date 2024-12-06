@@ -9,7 +9,6 @@
     
     function updateToYearsFilter(event) {
         const startYear = event.target.value;
-        toYearsFilter.replaceChildren(null);
         if(startYear == 7) {
             toYearsFilter.removeAttribute('name');
             toYearsFilter.classList.add('d-none');
@@ -24,7 +23,7 @@
         option.value = "7";
         option.innerText = "7+";
         option.selected = true;
-        toYearsFilter.appendChild(option);
+        toYearsFilter.replaceChildren(option);
 
         for(let i = 6; i > startYear; i--) {
             const option = document.createElement('option');
