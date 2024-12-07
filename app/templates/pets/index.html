@@ -1,14 +1,16 @@
-{% extends "layout/layout.html" %} 
+{% extends "layout/layout.html" %}
+{% from "paginator/paginator.html" import paginator %}
 {% block title %} Home {% endblock %}
 {% block head %} 
   {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pets.css') }}">
 {% endblock %} 
 {% block content %}
 <div class="pets container">
     <div class="row px-2">
-        <div class="card py-4 my-4">
+        <div class="card py-4 mb-3 mb-md-0 mt-4">
             <div class="col-12">
-                <form action="" method="get">
+                <form method="get" id="filters">
                     <div class="row">
                         <div class="col-12 col-md-3 col-lg-3 mb-3 mb-lg-0">
                             <select aria-label="type select field" class="form-select" name="type">
@@ -67,10 +69,42 @@
                 </form>
             </div>
         </div>
-
     </div>
-    <div class="row">
-        <h1>This is pets!</h1>
+    <div class="row justify-content-start">
+        {% for pet in pagination_result.items %}
+            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mt-3 mt-md-5">
+                <div class="fliping-card img-fluid mx-auto">
+                    <div class="fliping-card__side fliping-card__side--front">
+                        <img alt="pet" width="200" height="200" src="{{ url_for('static', filename=pet.img_src) }}" class="img-fluid">
+                    </div>
+                    <div class="fliping-card__side fliping-card__side--back 
+                    {%if pet.sex == 'M' %}
+                    {{'fliping-card__side--back-male'}}
+                    {% else %}
+                    {{'fliping-card__side--back-female'}}
+                    {% endif %}"
+                    >
+                        <ul class="list-unstyled text-center mt-3">
+                            <li>Name: {{pet.name}}</li>
+                            <li>Age: {{pet.age}}, Sex: {{pet.sex}}</li>
+                            <li>W: {{pet.weight}}lbs., H: {{pet.height}}ft.</li>
+                            <li>Location: {{pet.location}}</li>
+                            <li>Ask for adoption!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center">
+        {{  
+            paginator(pagination_result.page,
+            pagination_result.pages,
+            pagination_result.has_prev,
+            pagination_result.has_next,
+            pagination_result.prev_num,
+            pagination_result.next_num )
+        }}
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/pets-filter.js') }}"></script>
