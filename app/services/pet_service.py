@@ -1,8 +1,54 @@
 from flask import Request
 from app.extensions import db
+from app.models.pet import Pet
 from app.models.pet_kind import PetKind
 
 class PetService:
+    
+    @staticmethod
+    def get_pets(request: Request,results_per_page=8):
+        def sex_n_to_str(sex: str):
+            if sex == '1':
+                return 'F'
+            elif sex == '2':
+                return 'M'
+            else:
+                return None
+            
+        type = request.args.get('type')
+        sex = sex_n_to_str(request.args.get('sex'))
+        age_from = request.args.get('age-from')
+        age_to = request.args.get('age-to')
+        query = db.select(Pet)
+        page = request.args.get('page', 1)
+        
+        if sex != None:
+            query = query.filter_by(sex=sex)
+        if type != None:
+            types = db.session.execute(db.select(PetKind.id)).scalars().all()
+            if int(type) in types:
+                query = query.filter_by(kind_id=type)
+        if age_from != None:
+            age_from = int(age_from)
+            if age_from >= 0 and age_from <= 7:
+                query = query.filter(Pet.age >= age_from)
+        if age_to != None:
+            age_to = int(age_to)
+            if age_to >= 1 and age_to < 7:
+                query = query.filter(Pet.age <= age_to)
+
+        try:
+            return db.paginate( 
+                select=query, 
+                page=int(page), 
+                per_page=results_per_page,
+                )
+        except:
+            return  db.paginate( 
+                select=query, 
+                page=1, 
+                per_page=results_per_page,
+                )
     
     @staticmethod
     def get_options(request: Request):
@@ -88,6 +134,10 @@ class PetService:
         return options
     
     @staticmethod
-    def selected_safeguard(selected_arg, select_default, options_length):
-        if selected_arg is not isinstance(selected_arg, int) or selected_arg < 0 or selected_arg > len(options_length):
+    def selected_safeguard(selected_arg: str | None, select_default, options_length: int):
+        try:
+            selected_arg = int(selected_arg)
+            if selected_arg < 0 or selected_arg > options_length:
+                select_default["selected"] = True
+        except:
             select_default["selected"] = True
