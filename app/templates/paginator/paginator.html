@@ -1,0 +1,59 @@
+{% macro paginator(page,pages,has_prev,has_next,prev_num,next_num) %}
+<nav>
+    <ul class="pagination justify-content-center my-5">
+      <li class="page-item">
+        <button 
+            class="page-link {% if not has_prev %}{{'disabled'}}{% endif %}" 
+            form="filters"
+            name="page"
+            type="submit"
+            {%if prev_num is not none%}{{'value='}}{{prev_num}}{% endif %} 
+        ><span>&laquo;</span> Prev</button>
+      </li>
+      <li class="page-item">
+        <button 
+            class="page-link {% if page == 1 %}{{'active'}}{% endif %}"
+            form="filters"
+            name="page"
+            type="submit"
+            value="1"
+        >1</button>
+      </li>
+      {% if page > 2  %}
+        <li class="page-item disabled"><button class="page-link">...</button></li>
+      {% endif %}
+      {% if page > 1 and page < pages %}
+        <button 
+            class="page-link active"
+            form="filters"
+            name="page"
+            type="submit"
+            value="{{page}}"
+        >{{page}}</button>
+      {% endif %}
+      {%if page <  pages  - 1 %}
+        <li class="page-item disabled"><button class="page-link">...</button></li>
+      {% endif %}
+      {% if pages > 1 %}
+        <li class="page-item">
+          <button 
+              class="page-link {%if page == pages %}{{'active'}}{% endif %}"
+              form="filters"
+              name="page"
+              type="submit"
+              value="{{pages}}"
+          >{{pages}}</button>
+        </li>
+      {% endif %}
+      <li class="page-item">
+        <button
+            class="page-link {% if not has_next %}{{'disabled'}}{% endif %}"
+            form="filters"
+            name="page"
+            type="submit"
+            {%if next_num is not none%}{{'value='}}{{next_num}}{% endif %} 
+        >Next <span>&raquo;</span></button>
+    </li>
+    </ul>
+</nav>
+{% endmacro %}
