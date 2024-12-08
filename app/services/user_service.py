@@ -8,7 +8,7 @@ from app.utils.alert_type import AlertType
 from app.utils.errors.users.user_register_errors import UserRegisterErrors
 from app.utils.flash_message import FlashMessage
 from app.utils.flash_message_category import FlashMessageCategory
-from app.utils.validators import UserValidators
+from app.utils.validators.user_validators import UserValidators
 class UserService:
   
   @staticmethod
