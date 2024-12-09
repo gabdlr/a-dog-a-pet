@@ -42,7 +42,7 @@ class DBUtils():
           name=f"Pet {str(i)}", 
           kind_id=kind_id,
           age=randrange(0,8),
-          img_src="img/placeholder-dog.jpg" if kind_id == 1 else "img/placeholder-cat.jpg",
+          img_src="/static/img/placeholder-dog.jpg" if kind_id == 1 else "/static/img/placeholder-cat.jpg",
           weight=1,
           location="Shelbyville", 
           sex= "M" if randrange(3) > 1.5 else "F",

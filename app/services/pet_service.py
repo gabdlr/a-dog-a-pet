@@ -1,4 +1,7 @@
-from flask import flash, Request
+import cloudinary
+import cloudinary.uploader
+import os
+from flask import flash, Request, session
 from app.extensions import db
 from app.models.pet import Pet
 from app.models.pet_kind import PetKind
@@ -11,19 +14,48 @@ class PetService:
     
     @staticmethod
     def register_pet(request: Request):
-        """Validations"""
+        user_id = session.get('id')
+        if user_id is None:
+            session.clear()
+            return False
+        
+        img = request.files['img']
+        img_url = None
+        if(request.files['img']):
+            try:
+                cloudinary.config(cloud_name = os.environ.get('CLOUD_NAME'), api_key=os.getenv('API_KEY'), 
+                    api_secret=os.getenv('API_SECRET'))
+                upload_result = cloudinary.uploader.upload(img)
+                img_url = upload_result['secure_url']
+            except:
+                print("err!")
+
         try:
             name =  PetValidators.is_valid_name(request.form.get('name'))
             age = PetValidators.is_valid_age(request.form.get('age'))
             sex = PetValidators.is_valid_sex(request.form.get('sex')) 
-            heigth = PetValidators.is_valid_height(request.form.get('height'))
+            height = PetValidators.is_valid_height(request.form.get('height'))
             weight = PetValidators.is_valid_weight(request.form.get('weight'))
-            kind = PetValidators.is_valid_type(request.form.get('type'))
+            kind_id = PetValidators.is_valid_type(request.form.get('type'))
             location = PetValidators.is_valid_location(request.form.get('location'))
-            """uploading image to cloudinary"""
-            """saving the data in the db"""
+
+            pet = Pet(
+                name=name,
+                kind_id=kind_id,
+                age=age,
+                img_src= img_url if img_url is not None else '/static/img/pet-placeholder.webp',
+                weight=weight,
+                location=location,
+                sex=sex,
+                height=height,
+                registrar_id=user_id
+            )
+            db.session.add(pet)
+            db.session.commit()
+            db.session.flush()
         except PetRegisterError as e:
             flash(FlashMessage(e.message, AlertType.DANGER.value ))
+        return True
     
     @staticmethod
     def get_pets(request: Request,results_per_page=8):            
@@ -48,6 +80,7 @@ class PetService:
             age_to = int(age_to)
             if age_to >= 1 and age_to < 7:
                 query = query.filter(Pet.age <= age_to)
+        query = query.order_by(Pet.registration_date.desc())
 
         try:
             return db.paginate( 
@@ -56,7 +89,7 @@ class PetService:
                 per_page=results_per_page,
                 )
         except:
-            return  db.paginate( 
+            return db.paginate( 
                 select=query, 
                 page=1, 
                 per_page=results_per_page,
