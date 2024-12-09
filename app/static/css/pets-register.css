@@ -1,0 +1,12 @@
+.pets-register {
+    max-width: 480px;
+}
+
+.pets-register__form-img-container {
+    max-height: 150px; 
+    max-width: 150px; 
+    overflow: hidden;
+}
+.pets-register__form-img:hover {
+    cursor: pointer;
+}

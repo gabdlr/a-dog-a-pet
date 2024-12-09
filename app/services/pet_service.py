@@ -1,22 +1,34 @@
-from flask import Request
+from flask import flash, Request
 from app.extensions import db
 from app.models.pet import Pet
 from app.models.pet_kind import PetKind
-
+from app.utils.alert_type import AlertType
+from app.utils.errors.pets.pet_register_errors import PetRegisterError
+from app.utils.flash_message import FlashMessage
+from app.utils.helpers import pet_sex_id_to_str
+from app.utils.validators.pet_validators import PetValidators
 class PetService:
     
     @staticmethod
-    def get_pets(request: Request,results_per_page=8):
-        def sex_n_to_str(sex: str):
-            if sex == '1':
-                return 'F'
-            elif sex == '2':
-                return 'M'
-            else:
-                return None
-            
+    def register_pet(request: Request):
+        """Validations"""
+        try:
+            name =  PetValidators.is_valid_name(request.form.get('name'))
+            age = PetValidators.is_valid_age(request.form.get('age'))
+            sex = PetValidators.is_valid_sex(request.form.get('sex')) 
+            heigth = PetValidators.is_valid_height(request.form.get('height'))
+            weight = PetValidators.is_valid_weight(request.form.get('weight'))
+            kind = PetValidators.is_valid_type(request.form.get('type'))
+            location = PetValidators.is_valid_location(request.form.get('location'))
+            """uploading image to cloudinary"""
+            """saving the data in the db"""
+        except PetRegisterError as e:
+            flash(FlashMessage(e.message, AlertType.DANGER.value ))
+    
+    @staticmethod
+    def get_pets(request: Request,results_per_page=8):            
         type = request.args.get('type')
-        sex = sex_n_to_str(request.args.get('sex'))
+        sex = pet_sex_id_to_str(request.args.get('sex'))
         age_from = request.args.get('age-from')
         age_to = request.args.get('age-to')
         query = db.select(Pet)
@@ -60,6 +72,10 @@ class PetService:
         options["sex"] = PetService.get_sex_options(sex)
         options["age_from"] = PetService.get_age_from_options(age_from)
         return options
+    
+    @staticmethod
+    def get_pets_kind():
+        return db.session.execute(db.select(PetKind)).scalars()
     
     @staticmethod
     def get_pets_kind_options(selected_kind=None):

@@ -15,3 +15,11 @@ def only_guests(html: str):
     if not session["id"]:
        return html
     return None
+
+def pet_sex_id_to_str(sex: str):
+    if sex == '1':
+        return 'F'
+    elif sex == '2':
+        return 'M'
+    else:
+        return None

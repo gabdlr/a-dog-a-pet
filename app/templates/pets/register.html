@@ -1,0 +1,152 @@
+{% extends "layout/layout.html" %}
+{% from "forms/submit-btn.html" import form_submit_button %}
+{% from "layout/inner_header.html" import inner_header%} 
+{% block title %} Home {% endblock %}
+{% block head %} 
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pets-register.css') }}">
+{% endblock %} 
+{% block content %}
+<div class="container">
+    <div class="pets-register mx-auto my-auto">
+        <div class="my-3">
+            {{ inner_header("Pet Details") }}
+        </div>
+        <div class="row px-2">
+            {% include 'message.html' %}
+        </div>
+        <div class="row mt-2">
+            <form class="needs-validation" enctype="multipart/form-data" method="post" novalidate>
+                <div class="row">
+                    <input 
+                        accept="image/png, image/jpeg, image/webp" 
+                        class="d-none"
+                        id="img-selector"
+                        name="img"
+                        type="file"
+                    />
+                    <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                        <div class="card pets-register__form-img-container">
+                            <label for="img-selector">
+                                <img 
+                                    alt="pet image"
+                                    class="d-block  pets-register__form-img" 
+                                    height="150"
+                                    id="img-card" 
+                                    src="{{ url_for('static', filename='img/pet-placeholder.webp') }}"
+                                    title="Max file size 2MB, max dimensions 512x512" 
+                                    width="150" 
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="row mb-3">
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="pet-name-wrapping">Name</span>
+                                <input 
+                                    aria-describedby="pet-name-wrapping"
+                                    aria-label="Pet's name" 
+                                    class="form-control"
+                                    name="name"
+                                    pattern="[A-Za-z ]{2,255}"
+                                    placeholder="Pet's name" 
+                                    type="text" 
+                                    required
+                                >
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="pet-age-wrapping">Age</span>
+                                    <input 
+                                        aria-describedby="pet-age-wrapping"
+                                        aria-label="Pet's age" 
+                                        class="form-control"
+                                        name="age"
+                                        pattern="^[0-9]+$"
+                                        placeholder="yrs"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="pet-sex-wrapping">Sex</span>
+                                    <select aria-label="type select field for pet's sex" class="form-select" name="sex">
+                                        <option value="1">F</option>
+                                        <option value="2">M</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="pet-height-wrapping">height</span>
+                                    <input 
+                                        aria-describedby="pet-height-wrapping"
+                                        aria-label="Pet's height" 
+                                        class="form-control"
+                                        name="height"
+                                        pattern="^\d+[\.]?[\d]*$"
+                                        placeholder="ft"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="pet-weight-wrapping">Weight</span>
+                                    <input 
+                                        aria-describedby="pet-weight-wrapping"
+                                        aria-label="Pet's weight" 
+                                        class="form-control"
+                                        name="weight"
+                                        pattern="^\d+[\.]?[\d]*$"
+                                        placeholder="lbs"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 ps-sm-0">
+                    <div class="col-5">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="pet-type-wrapping">Type</span>
+                            <select aria-label="type select field" class="form-select" name="type">
+                                {% for type in types %}
+                                    <option value="{{type.id}}">{{type.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="pet-location-wrapping">Location</span>
+                            <input 
+                                aria-describedby="pet-location-wrapping"
+                                aria-label="Pet's location" 
+                                class="form-control"
+                                name="location"
+                                pattern="[A-Za-z ]{2,255}"
+                                placeholder="Pet's location" 
+                                type="text"
+                                required 
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 d-flex justify-content-end">
+                        {{ form_submit_button("Submit") }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/validate-form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pet-form-img-updater.js') }}"></script>
+{% endblock %}
