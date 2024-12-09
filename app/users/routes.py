@@ -32,6 +32,8 @@ def logout():
 
 @bp.route('/register', methods=["GET", "POST"])
 def register():
+    if session.get('id') is not None:
+        return redirect("/users/")
     if request.method == 'POST':
         if UserService.register_user(request.form):
             return redirect("/users/")
