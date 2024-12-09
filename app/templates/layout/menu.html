@@ -5,17 +5,27 @@
   </li>
   {% if menu_type == "movil" %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['pets']}}">Pets</a>
+    <a class="nav-link" href="{{ROUTES['pets']['index']}}">Pets</a>
   </li>
+  {% if session["id"] %}
+  <li class="nav-item">
+    <a class="nav-link" href="{{ROUTES['pets']['register']}}">Add pet</a>
+  </li>
+  {% endif %}
   {% else %}
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
       Pets
     </a>
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="{{ROUTES['pets']}}">All</a></li>
-      <li><a class="dropdown-item" href="{{ROUTES['pets']}}/?type=2">Cats</a></li>
-      <li><a class="dropdown-item" href="{{ROUTES['pets']}}/?type=1">Dogs</a></li>
+      <li><a class="dropdown-item" href="{{ROUTES['pets']['index']}}">All</a></li>
+      <li><a class="dropdown-item" href="{{ROUTES['pets']['index']}}/?type=2">Cats</a></li>
+      <li><a class="dropdown-item" href="{{ROUTES['pets']['index']}}/?type=1">Dogs</a></li>
+      {% if session["id"] %}
+      <li>
+        <a class="dropdown-item" href="{{ROUTES['pets']['register']}}">Add pet</a>
+      </li>
+      {% endif %}
     </ul>
   </li>
   {% endif %}

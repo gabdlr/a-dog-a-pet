@@ -6,7 +6,10 @@ ROUTES = {
     'register' : '/users/register',
     'logout': '/users/logout'
   },
-  'pets': '/pets',
+  'pets': {
+    'index': '/pets',
+    'register': '/pets/register'
+  },
   'about-us' : '/us/about',
   'contact-us' : '/us/contact'
 }
