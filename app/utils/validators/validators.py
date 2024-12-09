@@ -10,3 +10,11 @@ class Validators:
             if(regex.match(string) is not None):
                 return True
         return False
+    
+    @staticmethod
+    def is_valid_decimal(value: str):
+        try:
+            float(value)
+            return True
+        except:
+            return False
