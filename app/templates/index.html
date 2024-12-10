@@ -2,7 +2,38 @@
 {% block title %} Home {% endblock %}
 {% block head %} 
   {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %} 
 {% block content %}
-<p>Hello, World!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-start p-4">
+      <h1 class="mb-0 mb-sm-2">A dog a pet!, </h1>
+      <h2>adopt a pet and fill your life with joy and happiness!</h2>
+    </div>
+    <div class="col-12">
+      <div id="carousel-home" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{{ url_for('static', filename='img/carousel/kittens.jpg') }}" class="d-block w-100 home__carousel--img" alt="kittens">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ url_for('static', filename='img/carousel/puppys.jpg') }}" class="d-block w-100 home__carousel--img" alt="puppys">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ url_for('static', filename='img/carousel/kitten-and-puppy.jpg') }}" class="d-block w-100 home__carousel--img" alt="kitten and puppy">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-home" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel-home" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
