@@ -1,20 +1,21 @@
 {% macro menu(ROUTES, menu_type) %}
+
 <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-center">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ROUTES['home']}}">Home</a>
+    <a class="nav-link {% if request.path == ROUTES['home'] %} active {% endif %} " aria-current="page" href="{{ROUTES['home']}}">Home</a>
   </li>
   {% if menu_type == "movil" %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['pets']['index']}}">Pets</a>
+    <a class="nav-link {% if request.path == ROUTES['pets']['index'] %} active {% endif %}" href="{{ROUTES['pets']['index']}}">Pets</a>
   </li>
   {% if session["id"] %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['pets']['register']}}">Add pet</a>
+    <a class="nav-link {% if request.path == ROUTES['pets']['register'] %} active {% endif %}" href="{{ROUTES['pets']['register']}}">Add pet</a>
   </li>
   {% endif %}
   {% else %}
   <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link {% if 'pets' in request.path %} active {% endif %} dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
       Pets
     </a>
     <ul class="dropdown-menu">
@@ -23,29 +24,29 @@
       <li><a class="dropdown-item" href="{{ROUTES['pets']['index']}}/?type=1">Dogs</a></li>
       {% if session["id"] %}
       <li>
-        <a class="dropdown-item" href="{{ROUTES['pets']['register']}}">Add pet</a>
+        <a class="dropdown-item {% if request.path == ROUTES['pets']['register'] %} active {% endif %}" href="{{ROUTES['pets']['register']}}">Add pet</a>
       </li>
       {% endif %}
     </ul>
   </li>
   {% endif %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['about-us']}}">About Us</a>
+    <a class="nav-link {% if request.path == ROUTES['about-us'] %} active {% endif %}" href="{{ROUTES['about-us']}}">About Us</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['contact-us']}}">Contact Us</a>
+    <a class="nav-link {% if request.path == ROUTES['contact-us'] %} active {% endif %}" href="{{ROUTES['contact-us']}}">Contact Us</a>
   </li>
   {% if session["id"] %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['users']['index']}}">My Profile</a>
+    <a class="nav-link {% if request.path == ROUTES['users']['index'] %} active {% endif %}" href="{{ROUTES['users']['index']}}">My Profile</a>
   </li>
   {% endif %}
   {% if not session["id"] %}
   <li class="nav-item">
-    <a class="nav-link" href="{{ROUTES['users']['register']}}">Register</a>
+    <a class="nav-link {% if request.path == ROUTES['users']['register'] %} active {% endif %}" href="{{ROUTES['users']['register']}}">Register</a>
   </li>
   <li class="nav-item d-block d-lg-none">
-    <a class="nav-link" href="{{ROUTES['users']['login']}}">Log In</a>
+    <a class="nav-link {% if request.path == ROUTES['users']['login'] %} active {% endif %}" href="{{ROUTES['users']['login']}}">Log In</a>
   </li>
   {% endif %}
 </ul>
