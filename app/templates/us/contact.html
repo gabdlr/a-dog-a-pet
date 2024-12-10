@@ -25,7 +25,9 @@
                 class="form-control"
                 {% if user != none %} disabled {% endif %} 
                 id="email" 
+                pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
                 placeholder="name@example.com"
+                required
                 {% if user != none %} value="{{user.email}}" {% endif %}
             >
         </div>
