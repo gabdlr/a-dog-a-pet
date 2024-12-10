@@ -1,4 +1,5 @@
 from app.extensions import db
+from app.models.pet import Pet
 from app.models.pet_kind import PetKind
 from app.utils.errors.pets.pet_register_errors import PetRegisterError
 from app.utils.helpers import pet_sex_id_to_str
@@ -64,3 +65,13 @@ class PetValidators:
             if Validators.is_valid_str_and_pattern(location,'^[A-Za-z ]{2,255}$'):
                 return location
         raise PetRegisterError("Invalid location")
+    
+    @staticmethod
+    def is_valid_pet_id(id: str | None):
+        if id is None:
+            return None
+        try:
+            int(id)
+        except:
+            return None
+        return db.session.execute(db.select(Pet).filter_by(id=id)).one_or_none()
