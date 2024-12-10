@@ -1,0 +1,25 @@
+{% extends "layout/layout.html" %}
+{% from "layout/inner_header.html" import inner_header%} 
+{% block title %} about us {% endblock %}
+{% block head %} 
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us.css') }}">
+{% endblock %} 
+{% block content %}
+<div class="container-fluid about-us h-100">
+<div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 col-sm-6 mt-5 mt-sm-0">
+            <h1 class="text-white fs-1">About us</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6">
+            <p>This is my CS50's project, dedicated to my cat that I love so much.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus sit hic sapiente error at reprehenderit. Iste dolorum nesciunt obcaecati quo! Corporis iste minus, magnam impedit rem excepturi temporibus laboriosam placeat.</p>
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "layout/layout.html" %}
+{% from "forms/submit-btn.html" import form_submit_button %}
+{% from "layout/inner_header.html" import inner_header%} 
+{% block title %} contact us {% endblock %}
+{% block head %} 
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact-us.css') }}">
+{% endblock %} 
+{% block content %}
+<div class="container">
+  <div class="contact-us mx-auto">
+    <div class="my-3">
+      {{ inner_header("Contact us") }}
+    </div>
+    <div class="row px-2">
+        {% include 'message.html' %}
+    </div>
+    <form class="row g-3 needs-validation" method="post">
+    <div class="col-12">
+
+        <div class="mb-3">
+            <label class="form-label" for="email" >Email address</label>
+            <input
+                type="email" 
+                class="form-control"
+                {% if user != none %} disabled {% endif %} 
+                id="email" 
+                placeholder="name@example.com"
+                {% if user != none %} value="{{user.email}}" {% endif %}
+            >
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Your message</label>
+            <textarea class="form-control" id="message" rows="3" required></textarea>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        {{ form_submit_button("Submit") }}
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

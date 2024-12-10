@@ -1,0 +1,6 @@
+.about-us {
+    background-image: url('/static/img/animals-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
