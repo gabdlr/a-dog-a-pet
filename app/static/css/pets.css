@@ -38,6 +38,14 @@
     background-color: #fd0d99;
 }
 
+.fliping-card__side--front-adopted {
+    filter: grayscale(1);
+}
+
+.fliping-card__side--back a {
+    color: white;
+}
+
 .fliping-card:hover .fliping-card__side--back {
     transform: rotateY(0);
 }

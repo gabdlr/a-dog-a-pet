@@ -2,15 +2,48 @@ import cloudinary
 import cloudinary.uploader
 import os
 from flask import flash, Request, session
+from sqlalchemy import Row, ScalarResult
 from app.extensions import db
+from app.models.adoptions import Adoptions
+from app.models.adoption_status import AdoptionStatus
 from app.models.pet import Pet
 from app.models.pet_kind import PetKind
+from app.utils.adoption_status import AdoptionStatusEnum
 from app.utils.alert_type import AlertType
 from app.utils.errors.pets.pet_register_errors import PetRegisterError
 from app.utils.flash_message import FlashMessage
 from app.utils.helpers import pet_sex_id_to_str
 from app.utils.validators.pet_validators import PetValidators
 class PetService:
+    
+    @staticmethod
+    def adopt_pet(request: Request):
+        pet_id = request.args.get('id')
+        user_id = session.get('id')
+        if user_id is None:
+            session.clear()
+            return False
+        pet = PetValidators.is_valid_pet_id(pet_id)
+        if pet is not None:
+            if pet[0].registrar_id != user_id:
+                if db.session.execute(db.select(Adoptions).filter_by(pet_id=pet_id)).one_or_none() == None:
+                    adoption_statuses: ScalarResult[AdoptionStatus] = db.session.execute(db.select(AdoptionStatus)).scalars();
+                    pending_status_id = None
+                    
+                    for adoption_status in adoption_statuses:
+                        if adoption_status.name == AdoptionStatusEnum.PENDING.value:
+                            pending_status_id = adoption_status.id
+                    
+                    if pending_status_id is not None:
+                        adoption = Adoptions(
+                            adopter_id=user_id,
+                            pet_id=pet_id,
+                            status_id=pending_status_id
+                        )
+                        db.session.add(adoption)
+                        db.session.commit()
+                        db.session.flush()
+        return True
     
     @staticmethod
     def register_pet(request: Request):

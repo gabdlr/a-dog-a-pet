@@ -4,6 +4,7 @@ from app.models.pet import Pet
 from app.models.pet_kind import PetKind
 from app.models.adoptions import Adoptions
 from app.models.adoption_status import AdoptionStatus
+from app.utils.adoption_status import AdoptionStatusEnum
 from datetime import date
 from random import randrange
 from werkzeug.security import generate_password_hash
@@ -34,6 +35,13 @@ class DBUtils():
       db.session.add_all([dog,cat])
       db.session.commit()
       
+      """Adoption statuses"""
+      adoption_pending = AdoptionStatus(name=AdoptionStatusEnum.PENDING.value)
+      adoption_approved = AdoptionStatus(name=AdoptionStatusEnum.APPROVED.value)
+      adoption_rejected = AdoptionStatus(name=AdoptionStatusEnum.REJECTED.value)
+      db.session.add_all([adoption_pending,adoption_approved,adoption_rejected])
+      db.session.commit()
+
       """Pets"""
       pets = []
       for i in range(40):

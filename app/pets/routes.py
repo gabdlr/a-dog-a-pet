@@ -23,3 +23,10 @@ def register():
         flash(FlashMessage("Pet added!", AlertType.SUCCESS.value ))
     types = PetService.get_pets_kind()
     return render_template("pets/register.html", types=types)
+
+@bp.route('adopt')
+@login_required
+def adopt():
+    if not PetService.adopt_pet(request):
+        return redirect("/users/login")
+    return redirect("/pets/")

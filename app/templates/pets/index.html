@@ -8,6 +8,9 @@
 {% block content %}
 <div class="pets container">
     <div class="row px-2">
+        {% include 'message.html' %}
+    </div>
+    <div class="row px-2">
         <div class="card py-4 mb-3 mb-md-0 mt-4">
             <div class="col-12">
                 <form method="get" id="filters">
@@ -74,7 +77,11 @@
         {% for pet in pagination_result.items %}
             <div class="col-6 col-sm-4 col-md-4 col-lg-3 mt-3 mt-md-5">
                 <div class="fliping-card img-fluid mx-auto">
-                    <div class="fliping-card__side fliping-card__side--front">
+                    <div class="fliping-card__side fliping-card__side--front 
+                    {%if pet.adoption != none and pet.adoption.status.name != 'rejected' %}
+                    {{'fliping-card__side--front-adopted'}}
+                    {% endif %}
+                    ">
                         <img alt="pet" width="200" height="200" src="{{ pet.img_src }}" class="img-fluid">
                     </div>
                     <div class="fliping-card__side fliping-card__side--back 
@@ -89,7 +96,11 @@
                             <li>Age: {{pet.age}}, Sex: {{pet.sex}}</li>
                             <li>W: {{pet.weight}}lbs., H: {{pet.height}}ft.</li>
                             <li>Location: {{pet.location}}</li>
-                            <li>Ask for adoption!</li>
+                            {%if pet.adoption != none and pet.adoption.status.name != 'rejected' %}
+                                <li>This pet is currently in an adoption process.</li>
+                            {% else %}
+                                <li><a href="{% if session['id'] %} {{'/pets/adopt?id=' ~ pet.id}} {% else %} {{'/users/login'}}{% endif %}">Ask for adoption!</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

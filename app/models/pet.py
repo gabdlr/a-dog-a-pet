@@ -14,5 +14,6 @@ class Pet(db.Model):
   height = mapped_column(db.Float, default=0, nullable=False)
   registrar_id = mapped_column(db.Integer, db.ForeignKey('user.id'), nullable=False)
   registration_date = mapped_column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
+  adoption = relationship("Adoptions",uselist=False)
   kind = relationship("PetKind")
-  registrar = relationship("User")
+  registrar = relationship("User",uselist=False)
