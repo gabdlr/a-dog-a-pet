@@ -48,9 +48,6 @@
   <li class="nav-item d-block d-lg-none">
     <a class="nav-link {% if request.path == ROUTES['users']['login'] %} active {% endif %}" href="{{ROUTES['users']['login']}}">Log In</a>
   </li>
-  <li class="nav-item ">
-    <a class="nav-link" href="{{ROUTES['users']['logout']}}">Logout</a>
-  </li>
   {% endif %}
   {% if session["id"] %}
   <li class="nav-item d-block d-lg-none">
