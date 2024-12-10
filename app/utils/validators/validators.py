@@ -1,6 +1,5 @@
 import re
 from typing import Optional
-
 class Validators:
 
     @staticmethod
@@ -18,3 +17,9 @@ class Validators:
             return True
         except:
             return False
+        
+    @staticmethod
+    def allowed_file_img(filename):
+        ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

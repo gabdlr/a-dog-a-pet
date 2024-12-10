@@ -14,6 +14,7 @@ from app.utils.errors.pets.pet_register_errors import PetRegisterError
 from app.utils.flash_message import FlashMessage
 from app.utils.helpers import pet_sex_id_to_str
 from app.utils.validators.pet_validators import PetValidators
+from app.utils.validators.validators import Validators
 class PetService:
     
     @staticmethod
@@ -54,14 +55,18 @@ class PetService:
         
         img = request.files['img']
         img_url = None
-        if(request.files['img']):
+        if(img):
             try:
+                if not Validators.allowed_file_img(img.filename):
+                    raise(PetRegisterError("Invalid image format")) 
                 cloudinary.config(cloud_name = os.environ.get('CLOUD_NAME'), api_key=os.getenv('API_KEY'), 
                     api_secret=os.getenv('API_SECRET'))
                 upload_result = cloudinary.uploader.upload(img)
                 img_url = upload_result['secure_url']
+            except PetRegisterError as e:
+                flash(FlashMessage(e.message, AlertType.DANGER.value ))
             except:
-                print("err!")
+                print("error")
 
         try:
             name =  PetValidators.is_valid_name(request.form.get('name'))
